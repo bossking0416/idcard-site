@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>출력 도안</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200;300;400;500;600;700;900&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  background: #fff;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+/* 📸 사진 */
+.photo {
+  position: absolute;
+  top: 38px;
+  right: 22px;
+  width: 196px;
+  height: 230px;
+  overflow: hidden;
+  background: #eee;
+}
+.photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 🔴 프레임 */
+.card img.frame {
+  position: absolute;
+  width: 100px;
+  height: auto;
+  top: 280px;
+  right: 70px;
+  pointer-events: none;
+}
+
+/* 🔵 box.jpg (발급기관 왼쪽 옆) */
+.card img.box {
+  width: 90px;      /* 👈 여기 원하는 크기 */
+  height: auto;
+  position: absolute;
+  bottom: 440px;
+  left: 35px;
+  pointer-events: none;
+}
+
+/* 상단 */
+.top-bar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 70px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  background: white;
+}
+
+.camera {
+  font-size: 36px;
+}
+
+.title-wrap {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: bold;
+  font-size: 22px;
+}
+
+.edit-btn {
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.print-btn {
+  padding: 14px 26px;
+  font-size: 18px;
+  border: none;
+  background: black;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-right: 25px;
+}
+
+/* 콘텐츠 */
+.content {
+  margin-top: 100px;
+  display: flex;
+  justify-content: center;
+}
+
+/* 카드 */
+.card {
+  position: relative;
+  width: 600px;
+}
+
+/* ⚠️ 중요 (프레임/box 영향 안받게) */
+.card > img {
+  width: 100%;
+}
+
+/* 텍스트 */
+.text {
+  position: absolute;
+  color: black;
+}
+
+/* 이름 */
+.name {
+  top: 99px;
+  left: 95px;
+  font-size: 23px;
+  letter-spacing: 3px;
+  font-family: 'Noto Serif KR', serif;
+  font-weight: 700;
+}
+
+/* 한자 */
+.hanja {
+  top: 102px;
+  left: 175px;
+  font-size: 21px;
+  letter-spacing: 2px;
+  font-family: 'Noto Serif JP', serif;
+}
+
+/* 주민번호 */
+.number {
+  top: 145px;
+  left: 78px;
+  font-size: 23px;
+  font-family: 'Noto Sans JP', sans-serif;
+}
+
+/* 주소 */
+.address {
+  top: 190px;
+  left: 45px;
+  font-size: 19px;
+  line-height: 1.2;
+  width: 300px;
+  word-break: break-all;
+}
+
+/* 날짜 */
+.date {
+  bottom: 467px;
+  left: 250px;
+  font-size: 21px;
+  font-family: 'Noto Serif KR', serif;
+}
+
+/* 기관 */
+.org {
+  bottom: 435px;
+  left: 190px;
+  font-size: 23px;
+  font-family: 'Noto Serif KR', serif;
+  font-weight: 600;
+}
+
+/* 버튼 */
+.open-btn {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  padding: 18px 30px;
+  font-size: 18px;
+  background: black;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.print-btn:active,
+.open-btn:active {
+  transform: scale(0.95);
+}
+
+/* 입력창 */
+.form {
+  position: fixed;
+  bottom: 100px;
+  left: 20px;
+  background: white;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form input {
+  padding: 6px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="top-bar">
+  <div class="camera">📷</div>
+
+  <div class="title-wrap">
+    <span id="title-text">출력 도안</span>
+    <span class="edit-btn" onclick="editTitle()">✏️</span>
+  </div>
+
+  <button class="print-btn" onclick="window.print()">출력</button>
+</div>
+
+<div class="content">
+  <div class="card">
+    <img src="front.png">
+    <img src="back.jpg">
+
+    <div class="photo">
+      <img id="photo-img">
+    </div>
+
+    <div class="text name" id="name"></div>
+    <div class="text hanja" id="hanja"></div>
+    <div class="text number" id="number"></div>
+    <div class="text address" id="address"></div>
+    <div class="text date" id="date"></div>
+    <div class="text org" id="org"></div>
+
+    <!-- 🔵 추가된 이미지 -->
+    <img src="box.jpg" class="box">
+
+    <!-- 🔴 프레임 -->
+    <img src="frame.png" class="frame">
+  </div>
+</div>
+
+<button class="open-btn" onclick="toggleForm()">입력</button>
+
+<div class="form" id="form">
+  <input placeholder="이름" oninput="update('name', this.value)">
+  <input placeholder="한자" oninput="update('hanja', this.value)">
+  <input placeholder="주민등록번호" oninput="update('number', this.value)">
+  <input placeholder="주소" oninput="update('address', this.value)">
+  <input placeholder="발급날짜" oninput="update('date', this.value)">
+  <input placeholder="발급기관" oninput="update('org', this.value)">
+  <input placeholder="사진 URL" oninput="updateImage(this.value)">
+</div>
+
+<script>
+function toggleForm() {
+  const form = document.getElementById('form');
+  form.style.display = form.style.display === 'flex' ? 'none' : 'flex';
+}
+
+function update(id, value) {
+  document.getElementById(id).innerText = value;
+}
+
+function updateImage(url) {
+  document.getElementById('photo-img').src = url;
+}
+
+function editTitle() {
+  const name = prompt("이름 입력해");
+  if (name) {
+    document.getElementById("title-text").innerText = name + " 출력 도안";
+  }
+}
+</script>
+
+</body>
+</html>
